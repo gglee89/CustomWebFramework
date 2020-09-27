@@ -18,18 +18,16 @@ Custom Web Framework
 **Operation in Main Delegation:**  
 ![image](https://user-images.githubusercontent.com/16644017/93995249-be3bcd00-fdcb-11ea-80ee-02e46874d8a5.png)
 
-<br><br>
+<br>
 
 ## **DESIGN PATTERN**
-
-<br>
 
 ## **User Class**
 
 **Option #1:**  
 Accept dependencies as second constructor argument.
 
-```
+```js
 ...
 export class User {
   constructor(
@@ -51,7 +49,7 @@ Only accept dependencies into constructor, and define a static class method to p
 
 The contructor is responsible to receive the "Composable" sub classes to aggregate into the main class.
 
-```
+```js
 ...
 export class User {
   static fromData(data: UserProps) {
@@ -67,9 +65,9 @@ export class User {
 }
 ```
 
-> This pattern looks as an improvement over option #1, however we need to consider that.
+> This pattern looks as an improvement over option #1, however we need to consider that;
 
-> Using a static function for initialization may turn out to become a hurdle, repetitive and too much aglomeration in on point when considering scaling the main User class in future development iterations.
+> Using a static function for initialization may turn out to become a hurdle, repetitive and too much aglomeration in on point when considering scaling the main User class in future development iterations;
 
 <br>
 
@@ -77,7 +75,7 @@ export class User {
 Only accept properties into constructor.
 Hard code dependencies as class properties.
 
-```
+```js
 ...
 export class User {
   events: Eventing = new Eventing();
@@ -92,38 +90,36 @@ const user = new User({});
 user.events
 ```
 
-> Pro: After instantiating a new object, events is already available for use without any need of extra configuration.
+> Pro: After instantiating a new object, events is already available for use without any need of extra configuration;
 
-> Con: Lose some of the benefits of COMPOSITION. We can't swap out Eventing from class user. Making the class construction less flexible and modular.
+> Con: Lose some of the benefits of COMPOSITION. We can't swap out Eventing from class user. Making the class construction less flexible and modular;
 
 <br>
 
 ## **Sync Class**
 
-<br>
-
 **Option #1:**
 ![image](https://user-images.githubusercontent.com/16644017/94100660-1f65ae00-fe69-11ea-8a84-8ed16b4afa30.png)
 
-> Con: [BAD MODULARITY] Class Sync, in this case, would work exclusively with User having use to create a separate custom SYNC for each ENTITY in the Database.
+> Con: [BAD MODULARITY] Class Sync, in this case, would work exclusively with User having use to create a separate custom SYNC for each ENTITY in the Database;
 
-> Pro: It works well enough for an application with a single ENTITY (e.g.: Users)
+> Pro: It works well enough for an application with a single ENTITY (e.g.: Users);
 
 <br>
 
 **Options #2:**
 ![image](https://user-images.githubusercontent.com/16644017/94101984-03afd700-fe6c-11ea-9703-6d3048b0924c.png)
 
-> Con: Serializable and Deserializable interfaces receives an empty object making the design to LOSE ON TYPE SAFETY.
+> Con: Serializable and Deserializable interfaces receives an empty object making the design to LOSE ON TYPE SAFETY;
 
-> Pro: [MODERATE MODULARITY] Mkaing use of INTERFACES, allows the design to be more generic and to accept a broader spectrum of income and outcome data flowing in the application.
+> Pro: [MODERATE MODULARITY] Mkaing use of INTERFACES, allows the design to be more generic and to accept a broader spectrum of income and outcome data flowing in the application;
 
 <br>
 
 **Options #3:**
 ![image](https://user-images.githubusercontent.com/16644017/94102235-a5372880-fe6c-11ea-95ba-e73d9d470935.png)
 
-> Con: Higher complexity to implement the design in code. The use of Generics <T> adds up the level of difficulty to meddle
+> Con: Higher complexity to implement the design in code. The use of Generics <T> adds up the level of difficulty to meddle;
 
 > Pro: [HIGH MODULARITY and INTEGRATION]
 
@@ -136,6 +132,27 @@ user.events
 ![image](https://user-images.githubusercontent.com/16644017/94219923-dbcf7a80-ff22-11ea-8ca1-7d680b0de921.png)
 
 <br>
+
+**Problem in using a 100% pure composition pattern:**
+
+![image](https://user-images.githubusercontent.com/16644017/94233372-bf433a80-ff42-11ea-9294-3442e42122ef.png)
+
+> Generates a TON of code duplication once we start having the need for additional ENTITIES (e.g. BlogPost);
+
+**Possible solution:**
+![image](https://user-images.githubusercontent.com/16644017/94233674-3b3d8280-ff43-11ea-83a9-588536fe0ee0.png)
+
+> Using CLASS INHERITANCE passing all common properties to an ABSTRACT class "Model", we modularize and make use of proper DEPENDENCY INJECTION, and DRY Code;
+
+<br>
+
+## **USER INTERFACE**
+
+![image](https://user-images.githubusercontent.com/16644017/94328188-55cb3680-ffeb-11ea-99e7-0324480ec222.png)
+
+> Structure based off of Web Components (e.g. React, Vue, Angular, etc.)
+
+![image](https://user-images.githubusercontent.com/16644017/94328219-a8a4ee00-ffeb-11ea-8f8c-3c701b7c6c11.png)
 
 ## **AUTHOR**
 
